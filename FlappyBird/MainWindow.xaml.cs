@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Threading;
+
 namespace FlappyBird
 {
     /// <summary>
@@ -16,12 +18,25 @@ namespace FlappyBird
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        DispatcherTimer gameTimer = new DispatcherTimer();
+
+        double score;
+        int gravity = 8;
+        bool gameOver;
+        Rect falappybirdHitbox;
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
 		private void KeyIsDown(object sender, KeyEventArgs e)
+		{
+
+		}
+
+		private void KeyIsUp(object sender, KeyEventArgs e)
 		{
 
 		}
