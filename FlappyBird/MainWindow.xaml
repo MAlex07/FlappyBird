@@ -6,7 +6,13 @@
         xmlns:local="clr-namespace:FlappyBird"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Canvas>
+		<Canvas.Background>
+			<ImageBrush ImageSource="/hatter.jpg"/>
+		</Canvas.Background>
 
-    </Grid>
+		<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="106" Canvas.Top="262"/>
+		<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="106" Canvas.Top="-270"/>
+
+	</Canvas>
 </Window>
