@@ -25,7 +25,7 @@ namespace FlappyBird
 
         double score;
 		double velocity = 0;
-		double gravity = 0.5;
+		double gravity = 0.4;
 		bool gameOver;
         Rect falappybirdHitbox;
 
@@ -41,8 +41,7 @@ namespace FlappyBird
 
 		private void Game(object sender, EventArgs e)
         {
-			Canvas.SetTop(madar, 190);
-			return;
+			
 
 			falappybirdHitbox = new Rect(
 			   Canvas.GetLeft(madar),
@@ -89,7 +88,7 @@ namespace FlappyBird
 		{
 			if (e.Key == Key.Space && !gameOver)
 			{
-				//gravity = -8;
+				gravity = -6;
 			}
 
 			if (e.Key == Key.R && gameOver)
