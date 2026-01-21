@@ -24,8 +24,9 @@ namespace FlappyBird
         DispatcherTimer gameTimer = new DispatcherTimer();
 
         double score;
-        int gravity = 8;
-        bool gameOver;
+		double velocity = 0;
+		double gravity = 0.5;
+		bool gameOver;
         Rect falappybirdHitbox;
 
 
@@ -40,13 +41,17 @@ namespace FlappyBird
 
 		private void Game(object sender, EventArgs e)
         {
+			Canvas.SetTop(madar, 190);
+			return;
+
 			falappybirdHitbox = new Rect(
 			   Canvas.GetLeft(madar),
 			   Canvas.GetTop(madar),
 			   madar.Width,
 			   madar.Height);
 
-			Canvas.SetTop(madar, Canvas.GetTop(madar) + gravity);
+			velocity += gravity;
+			Canvas.SetTop(madar, Canvas.GetTop(madar) + velocity);
 
 			foreach (var x in MyCanvas.Children.OfType<Image>())
 			{
@@ -84,7 +89,7 @@ namespace FlappyBird
 		{
 			if (e.Key == Key.Space && !gameOver)
 			{
-				gravity = -8;
+				//gravity = -8;
 			}
 
 			if (e.Key == Key.R && gameOver)
@@ -103,6 +108,9 @@ namespace FlappyBird
 
         private void StartGame()
         {
+			Random rnd = new Random();
+			int pipeX = 600;
+
 			MyCanvas.Focus();
 			score = 0;
 			gameOver = false;
@@ -115,7 +123,8 @@ namespace FlappyBird
 			{
 				if ((string)x.Tag == "obs1")
 				{
-					Canvas.SetLeft(x, 600 + new Random().Next(300));
+					Canvas.SetLeft(x, pipeX);
+					pipeX += 200;
 				}
 			}
 

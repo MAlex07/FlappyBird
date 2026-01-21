@@ -6,24 +6,27 @@
         xmlns:local="clr-namespace:FlappyBird"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-	<Canvas Name="MyCanvas" Focusable="True" KeyDown="KeyIsDown" KeyUp="KeyIsUp" Background="SkyBlue">
+
+	<Grid>
+		<Canvas Name="MyCanvas" Focusable="True" KeyDown="KeyIsDown" KeyUp="KeyIsUp" Background="SkyBlue"  Width="800" Height="450">
 		
 
 		<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="106" Canvas.Top="262"/>
 		<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="106" Canvas.Top="-270"/>
 
-		<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="310" Canvas.Top="239"/>
-		<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="310" Canvas.Top="-292"/>
+			<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="310" Canvas.Top="239"/>
+			<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="310" Canvas.Top="-292"/>
 
-		<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="522" Canvas.Top="320"/>
-		<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="522" Canvas.Top="-212"/>
+			<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="522" Canvas.Top="320"/>
+			<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="522" Canvas.Top="-212"/>
 
-		<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="714" Canvas.Top="283"/>
-		<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="714" Canvas.Top="-249"/>
+			<Image Height="390" Width="66" Source="/pipeBottom.png" Tag="obs1" Canvas.Left="714" Canvas.Top="283"/>
+			<Image Height="390" Width="66" Source="/pipeTop.png" Tag="obs1" Canvas.Left="714" Canvas.Top="-249"/>
 
 		<Image Name="madar" Source="/flappyBird.png" Height="36" Width="50" Stretch="Fill" Canvas.Left="0" Canvas.Top="190"/>
 
-		<Label Name="lbl_Score" FontSize="22" FontWeight="ExtraBold" Content="Score :0"/>
+		<Label Name="lbl_Score" FontSize="22" FontWeight="ExtraBold" Content="Score :0" Canvas.Left="10" Canvas.Top="10"/>
 
-	</Canvas>
+		</Canvas>
+	</Grid>
 </Window>

@@ -10,10 +10,14 @@
 
   <ItemGroup>
     <None Remove="hatter.jpg" />
+    <None Remove="pipeBottom.png" />
+    <None Remove="pipeTop.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="hatter.jpg" />
+    <Resource Include="pipeBottom.png" />
+    <Resource Include="pipeTop.png" />
   </ItemGroup>
 
 </Project>
