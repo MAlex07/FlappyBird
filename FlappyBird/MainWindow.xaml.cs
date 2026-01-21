@@ -28,18 +28,17 @@ namespace FlappyBird
         bool gameOver;
         Rect falappybirdHitbox;
 
-		public DispatcherTimer MainEventTimer { get; }
 
 		public MainWindow()
         {
             InitializeComponent();
 
-			gameTimer.Tick += MainEventTimer;
+			gameTimer.Tick += Game;
             gameTimer.Interval = TimeSpan.FromMilliseconds(20);
             StartGame();
         }
 
-		private void MainEventTimer(object sender, EventArgs e)
+		private void Game(object sender, EventArgs e)
         {
 			falappybirdHitbox = new Rect(
 			   Canvas.GetLeft(madar),
