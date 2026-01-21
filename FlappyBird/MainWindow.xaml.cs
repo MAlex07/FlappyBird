@@ -25,7 +25,7 @@ namespace FlappyBird
 
         double score;
 		double velocity = 0;
-		double gravity = 0.4;
+		double gravity = 0.5;
 		bool gameOver;
         Rect falappybirdHitbox;
 
