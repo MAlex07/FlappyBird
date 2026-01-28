@@ -41,13 +41,15 @@ namespace FlappyBird
 
 		private void Game(object sender, EventArgs e)
         {
-			
+
+
+			if (gameOver) return;
 
 			falappybirdHitbox = new Rect(
-			   Canvas.GetLeft(madar),
-			   Canvas.GetTop(madar),
-			   madar.Width,
-			   madar.Height);
+				Canvas.GetLeft(madar),
+				Canvas.GetTop(madar),
+				madar.Width,
+				madar.Height);
 
 			velocity += gravity;
 			Canvas.SetTop(madar, Canvas.GetTop(madar) + velocity);
@@ -107,18 +109,55 @@ namespace FlappyBird
 
         private void StartGame()
         {
+			foreach (var x in MyCanvas.Children.OfType<Image>())
+			{
+				x.Visibility = Visibility.Visible;
+			}
+
 			Random rnd = new Random();
 			int pipeX = 600;
+			int gap = 150;
+
+			var pipes = MyCanvas.Children
+			.OfType<Image>()
+			.Where(x => (string)x.Tag == "pipeTop" || (string)x.Tag == "pipeBottom")
+			.ToList();
 
 			MyCanvas.Focus();
+
+			
 			score = 0;
 			gameOver = false;
-
-			velocity = 0;       
-			gravity = 0.5;       
+			velocity = 0;
+			gravity = 0.5;
 
 			lbl_Score.Content = "Score: 0";
 
+			
+			Canvas.SetTop(madar, 190);
+			Canvas.SetLeft(madar, 50);
+
+
+			for (int i = 0; i < pipes.Count; i += 2)
+			{
+				Image topPipe = pipes[i];
+				Image bottomPipe = pipes[i + 1];
+
+				int gapY = rnd.Next(200, 350);   
+
+				Canvas.SetLeft(topPipe, pipeX);
+				Canvas.SetTop(topPipe, gapY - gap / 2 - topPipe.Height);
+
+				Canvas.SetLeft(bottomPipe, pipeX);
+				Canvas.SetTop(bottomPipe, gapY + gap / 2);
+
+				pipeX += 250;
+			}
+
+
+
+
+			gameTimer.Stop();
 			gameTimer.Start();
 		}
 
@@ -126,7 +165,7 @@ namespace FlappyBird
         {
 			gameTimer.Stop();
 			gameOver = true;
-			lbl_Score.Content += "  GAME OVER (R)";
+			lbl_Score.Content = "Score: " + score + "  GAME OVER (R)";
 		}
         
 
