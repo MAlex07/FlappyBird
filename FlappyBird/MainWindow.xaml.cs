@@ -88,7 +88,7 @@ namespace FlappyBird
 		{
 			if (e.Key == Key.Space && !gameOver)
 			{
-				gravity = -6;
+				gravity = -2;
 			}
 
 			if (e.Key == Key.R && gameOver)
@@ -101,7 +101,7 @@ namespace FlappyBird
 		{
 			if (e.Key == Key.Space)
 			{
-				gravity = 8;
+				gravity = 0.8;
 			}
 		}
 
@@ -113,19 +113,11 @@ namespace FlappyBird
 			MyCanvas.Focus();
 			score = 0;
 			gameOver = false;
+
+			velocity = 0;       
+			gravity = 0.5;       
+
 			lbl_Score.Content = "Score: 0";
-
-			Canvas.SetTop(madar, 190);
-			Canvas.SetLeft(madar, 50);
-
-			foreach (var x in MyCanvas.Children.OfType<Image>())
-			{
-				if ((string)x.Tag == "obs1")
-				{
-					Canvas.SetLeft(x, pipeX);
-					pipeX += 200;
-				}
-			}
 
 			gameTimer.Start();
 		}
