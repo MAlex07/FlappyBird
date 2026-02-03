@@ -102,7 +102,7 @@ namespace FlappyBird
                 Canvas.SetLeft(topPipe, Canvas.GetLeft(topPipe) - pipeSpeed);
                 Canvas.SetLeft(bottomPipe, Canvas.GetLeft(bottomPipe) - pipeSpeed);
 
-                // Ütközés
+                
                 if (falappybirdHitbox.IntersectsWith(
                         new Rect(Canvas.GetLeft(topPipe), Canvas.GetTop(topPipe),
                                  topPipe.Width, topPipe.Height)) ||
@@ -114,7 +114,7 @@ namespace FlappyBird
                     return;
                 }
 
-                // Új csőpár
+                
                 if (Canvas.GetLeft(topPipe) < -100)
                 {
                     int gapY = rnd.Next(200, 350);
@@ -129,7 +129,7 @@ namespace FlappyBird
                     bottomPipe.Name = bottomPipe.Name.Replace("_scored", "");
                 }
 
-                // Pontozás (csak egyszer)
+                
                 if (!bottomPipe.Name.Contains("_scored") &&
                     Canvas.GetLeft(bottomPipe) + bottomPipe.Width <
                     Canvas.GetLeft(madar))
@@ -191,7 +191,7 @@ namespace FlappyBird
 			score = 0;
 			gameOver = false;
 			velocity = 0;
-			//gravity = 0.5;
+
 
 			lbl_Score.Content = "Score: 0";
 
