@@ -21,12 +21,20 @@ namespace FlappyBird
     public partial class MainWindow : Window
     {
 
+        double jumpForce;
+        double gravity;
+        double pipeSpeed;
+        Random rnd = new Random();
+        int pipeGap = 150;
+        int pipeSpawnX = 800;
+
+        bool inMenu = true;
+
+
         DispatcherTimer gameTimer = new DispatcherTimer();
 
         double score;
 		double velocity = 0;
-		double gravity = 0.5;
-        double pipeSpeed = 5;
         bool gameOver;
         Rect falappybirdHitbox;
 
@@ -40,7 +48,32 @@ namespace FlappyBird
             StartGame();
         }
 
-		private void Game(object sender, EventArgs e)
+        private void Normal_Click(object sender, RoutedEventArgs e)
+        {
+            jumpForce = -6;
+            gravity = 0.5;
+            pipeSpeed = 5;
+
+            StartFromMenu();
+        }
+
+        private void Hard_Click(object sender, RoutedEventArgs e)
+        {
+            jumpForce = -5;
+            gravity = 0.65;
+            pipeSpeed = 7;
+
+            StartFromMenu();
+        }
+
+        private void StartFromMenu()
+        {
+            MenuPanel.Visibility = Visibility.Collapsed;
+            inMenu = false;
+            StartGame();
+        }
+
+        private void Game(object sender, EventArgs e)
         {
 
 
@@ -55,41 +88,55 @@ namespace FlappyBird
 			velocity += gravity;
 			Canvas.SetTop(madar, Canvas.GetTop(madar) + velocity);
 
-            foreach (var pipe in MyCanvas.Children.OfType<Image>())
+            var pipes = MyCanvas.Children
+                .OfType<Image>()
+                .Where(x => x.Tag != null &&
+                       ((string)x.Tag == "pipeTop" || (string)x.Tag == "pipeBottom"))
+                .ToList();
+
+            for (int i = 0; i + 1 < pipes.Count; i += 2)
             {
-                if ((string)pipe.Tag == "pipeTop" || (string)pipe.Tag == "pipeBottom")
+                Image topPipe = pipes[i];
+                Image bottomPipe = pipes[i + 1];
+
+                Canvas.SetLeft(topPipe, Canvas.GetLeft(topPipe) - pipeSpeed);
+                Canvas.SetLeft(bottomPipe, Canvas.GetLeft(bottomPipe) - pipeSpeed);
+
+                // Ütközés
+                if (falappybirdHitbox.IntersectsWith(
+                        new Rect(Canvas.GetLeft(topPipe), Canvas.GetTop(topPipe),
+                                 topPipe.Width, topPipe.Height)) ||
+                    falappybirdHitbox.IntersectsWith(
+                        new Rect(Canvas.GetLeft(bottomPipe), Canvas.GetTop(bottomPipe),
+                                 bottomPipe.Width, bottomPipe.Height)))
                 {
-                    Canvas.SetLeft(pipe, Canvas.GetLeft(pipe) - pipeSpeed);
+                    EndGame();
+                    return;
+                }
 
-                    Rect pipeHitBox = new Rect(
-                        Canvas.GetLeft(pipe),
-                        Canvas.GetTop(pipe),
-                        pipe.Width,
-                        pipe.Height);
+                // Új csőpár
+                if (Canvas.GetLeft(topPipe) < -100)
+                {
+                    int gapY = rnd.Next(200, 350);
 
-                    if (falappybirdHitbox.IntersectsWith(pipeHitBox))
-                    {
-                        EndGame();
-                    }
+                    Canvas.SetLeft(topPipe, pipeSpawnX);
+                    Canvas.SetTop(topPipe, gapY - pipeGap / 2 - topPipe.Height);
 
-                    
-                    if (Canvas.GetLeft(pipe) < -100)
-                    {
-                        Canvas.SetLeft(pipe, 800);
-                        pipe.Tag = pipe.Tag + "_scored"; 
-                    }
+                    Canvas.SetLeft(bottomPipe, pipeSpawnX);
+                    Canvas.SetTop(bottomPipe, gapY + pipeGap / 2);
 
-                   
-                    if ((string)pipe.Tag == "pipeBottom")
-                    {
-                        if (Canvas.GetLeft(pipe) + pipe.Width < Canvas.GetLeft(madar)
-                            && !pipe.Name.Contains("scored"))
-                        {
-                            score++;
-                            lbl_Score.Content = "Score: " + score;
-                            pipe.Name += "scored";
-                        }
-                    }
+                    topPipe.Name = topPipe.Name.Replace("_scored", "");
+                    bottomPipe.Name = bottomPipe.Name.Replace("_scored", "");
+                }
+
+                // Pontozás (csak egyszer)
+                if (!bottomPipe.Name.Contains("_scored") &&
+                    Canvas.GetLeft(bottomPipe) + bottomPipe.Width <
+                    Canvas.GetLeft(madar))
+                {
+                    score++;
+                    lbl_Score.Content = "Score: " + score;
+                    bottomPipe.Name += "_scored";
                 }
             }
 
@@ -101,12 +148,12 @@ namespace FlappyBird
 
 		private void KeyIsDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Space && !gameOver)
-			{
-				gravity = -4;
-			}
+            if (e.Key == Key.Space && !gameOver)
+            {
+                velocity = jumpForce;
+            }
 
-			if (e.Key == Key.R && gameOver)
+            if (e.Key == Key.R && gameOver)
 			{
 				StartGame();
 			}
@@ -122,7 +169,9 @@ namespace FlappyBird
 
         private void StartGame()
         {
-			foreach (var x in MyCanvas.Children.OfType<Image>())
+            if (inMenu) return;
+
+            foreach (var x in MyCanvas.Children.OfType<Image>())
 			{
 				x.Visibility = Visibility.Visible;
 			}
@@ -142,7 +191,7 @@ namespace FlappyBird
 			score = 0;
 			gameOver = false;
 			velocity = 0;
-			gravity = 0.5;
+			//gravity = 0.5;
 
 			lbl_Score.Content = "Score: 0";
 
@@ -179,7 +228,10 @@ namespace FlappyBird
 			gameTimer.Stop();
 			gameOver = true;
 			lbl_Score.Content = "Score: " + score + "  GAME OVER (R)";
-		}
+
+            MenuPanel.Visibility = Visibility.Visible;
+            inMenu = true;
+        }
         
 
 	}

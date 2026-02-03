@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:FlappyBird"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    
+    
 
 	<Grid>
 		<Canvas Name="MyCanvas" Focusable="True" KeyDown="KeyIsDown" KeyUp="KeyIsUp" Background="SkyBlue"  Width="800" Height="500">
@@ -28,5 +30,30 @@
 		<Label Name="lbl_Score" FontSize="22" FontWeight="ExtraBold" Content="Score :0" Canvas.Left="10" Canvas.Top="10"/>
 
 		</Canvas>
-	</Grid>
+
+        <StackPanel x:Name="MenuPanel"
+                Background="#AA000000"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="20">
+
+            <TextBlock Text="FLAPPY BIRD"
+                   Foreground="White"
+                   FontSize="32"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20"/>
+
+            <Button Content="Normál"
+                Width="200"
+                Height="40"
+                Margin="0,0,0,10"
+                Click="Normal_Click"/>
+
+            <Button Content="Nehéz"
+                Width="200"
+                Height="40"
+                Click="Hard_Click"/>
+        </StackPanel>
+    </Grid>
 </Window>
