@@ -26,7 +26,8 @@ namespace FlappyBird
         double score;
 		double velocity = 0;
 		double gravity = 0.5;
-		bool gameOver;
+        double pipeSpeed = 5;
+        bool gameOver;
         Rect falappybirdHitbox;
 
 
@@ -54,33 +55,45 @@ namespace FlappyBird
 			velocity += gravity;
 			Canvas.SetTop(madar, Canvas.GetTop(madar) + velocity);
 
-			foreach (var x in MyCanvas.Children.OfType<Image>())
-			{
-				if ((string)x.Tag == "obs1")
-				{
-					Canvas.SetLeft(x, Canvas.GetLeft(x) - 5);
+            foreach (var pipe in MyCanvas.Children.OfType<Image>())
+            {
+                if ((string)pipe.Tag == "pipeTop" || (string)pipe.Tag == "pipeBottom")
+                {
+                    Canvas.SetLeft(pipe, Canvas.GetLeft(pipe) - pipeSpeed);
 
-					Rect pipeHitBox = new Rect(
-						Canvas.GetLeft(x),
-						Canvas.GetTop(x),
-						x.Width,
-						x.Height);
+                    Rect pipeHitBox = new Rect(
+                        Canvas.GetLeft(pipe),
+                        Canvas.GetTop(pipe),
+                        pipe.Width,
+                        pipe.Height);
 
-					if (falappybirdHitbox.IntersectsWith(pipeHitBox))
-					{
-						EndGame();
-					}
+                    if (falappybirdHitbox.IntersectsWith(pipeHitBox))
+                    {
+                        EndGame();
+                    }
 
-					if (Canvas.GetLeft(x) < -100)
-					{
-						Canvas.SetLeft(x, 800);
-						score++;
-						lbl_Score.Content = "Score: " + score;
-					}
-				}
-			}
+                    
+                    if (Canvas.GetLeft(pipe) < -100)
+                    {
+                        Canvas.SetLeft(pipe, 800);
+                        pipe.Tag = pipe.Tag + "_scored"; 
+                    }
 
-			if (Canvas.GetTop(madar) < 0 || Canvas.GetTop(madar) > 450)
+                   
+                    if ((string)pipe.Tag == "pipeBottom")
+                    {
+                        if (Canvas.GetLeft(pipe) + pipe.Width < Canvas.GetLeft(madar)
+                            && !pipe.Name.Contains("scored"))
+                        {
+                            score++;
+                            lbl_Score.Content = "Score: " + score;
+                            pipe.Name += "scored";
+                        }
+                    }
+                }
+            }
+
+            if (Canvas.GetTop(madar) < 0 || Canvas.GetTop(madar) > 450)
 			{
 				EndGame();
 			}
@@ -90,7 +103,7 @@ namespace FlappyBird
 		{
 			if (e.Key == Key.Space && !gameOver)
 			{
-				gravity = -2;
+				gravity = -4;
 			}
 
 			if (e.Key == Key.R && gameOver)
